@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+    <link rel="stylesheet" href="static/assets/css/header.css">
+    <link rel="stylesheet" href="static/assets/css/footer.css">
+    <link rel="stylesheet" href="static/assets/css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+    body {
+            min-height: 100vh;
+            background-size: cover;
+            font-family: 'Poppins', sans-serif;
+            color: black;
+            background: white;
+
+        }
+        .container-fluid {
+            margin-top: 200px ;
+        }
+
+        p {
+            font-size: 14px;
+            margin-bottom: 7px;
+
+        }
+
+        .small {
+            letter-spacing: 0.5px !important;
+        }
+
+
+
+        hr {
+            background-color: black;
+        }
+
+
+        .bold {
+            font-weight: 500;
+        }
+
+        .change-color {
+            color: black !important;
+        }
+
+        .card-2 {
+            box-shadow: 1px 1px 3px 0px rgb(112, 115, 139);
+
+        }
+
+        .fa-circle.active {
+            font-size: 8px;
+            color: #AB47BC;
+        }
+
+        .fa-circle {
+            font-size: 8px;
+            color: #aaa;
+        }
+
+        .rounded {
+            border-radius: 2.25rem !important;
+        }
+
+
+        .progress-bar {
+            background-color: #AB47BC !important;
+        }
+
+
+        .progress {
+            height: 5px !important;
+            margin-bottom: 0;
+        }
+
+        .invoice {
+            position: relative;
+            top: -70px;
+        }
+
+        .Glasses {
+            position: relative;
+            top: -12px !important;
+        }
+
+        .card-footer {
+            background-color: #2AAA8A;
+            color: #fff;
+        }
+
+        h2 {
+            color: black;
+            letter-spacing: 2px !important;
+        }
+
+        .display-3 {
+            font-weight: 300 !important;
+        }
+
+        @media (max-width: 479px) {
+            .invoice {
+                position: relative;
+                top: 7px;
+            }
+
+            .border-line {
+                border-right: 0px solid rgb(226, 206, 226) !important;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            h2 {
+                color: rgb(78, 0, 92);
+                font-size: 17px;
+            }
+
+            .display-3 {
+                font-size: 28px;
+                font-weight: 300 !important;
+            }
+        }
+
+        .card-footer small {
+            letter-spacing: 7px !important;
+            font-size: 12px;
+        }
+
+        .border-line {
+            border-right: 1px solid rgb(226, 206, 226)
+        }
+  </style>
+</head>
+<body>
+<!--header section starts-->
+<div class="wrapper">
+    <nav>
+      <input type="checkbox" id="show-search">
+      <input type="checkbox" id="show-menu">
+      <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+      <div class="content">
+        <div class="logo">Millets Market</div>
+        <ul class="links" style="top:6px;">
+          <li><a href="/" style="margin-left:150px;">Home</a></li>
+          <li style="text-align: left;">
+            <a href="#" class="desktop-link">Products</a>
+            <input type="checkbox">
+            <label for="show-features">Products</label>
+            <ul>
+              {% for categories_loop in categories %}
+                <form action="/product_list" method="post" >
+                    <li><button style="margin-left:60px; text-indent: -50px; background-color:black; font-size: 16px; border-color: black; width: 100%; cursor: pointer; font-family: Poppins, sans-serif; color: white; border:None;" name="category_name" value="{{categories_loop[1]}}">{{categories_loop[1]}}</button></li>
+                </form>
+                {% endfor %}
+            </ul>
+          </li>
+            <li>
+                <a href="#" class="desktop-link">Recipes</a>
+                <input type="checkbox" id="show-features">
+                <label for="show-features">Recipes</label>
+                <ul>
+
+                    <!--<form action="/diabetic" method="post" ><li><button style="background-color:darkSlateGrey">Diabetic Corner</li></form>--->
+                  <li><a href="/diabetic">Diabetic Corner</a></li>
+                  <li><a href="/snacks">Sweets & Snacks</a></li>
+                  <li><a href="/meals">Healthy Meals</a></li>
+                </ul>
+          </li>
+          <li><a href="#footer">Contact Us</a></li>
+        </ul>
+      </div>
+        <a href="/order_summary"><i class="fa fa-shopping-bag" style="font-size:25px;color:goldenrod" id="order_summary"></i></a>
+          <!-- profile -->
+        <div class="action">
+            <div class="profile" onclick="menuToggle();">
+                <img src="static/images/user.png" alt="">
+            </div>
+            <label id="trails1">{{name}}</label>
+
+            <script>
+                var nameLocal = localStorage.getItem("name");
+                var nameTag = document.getElementById("trails1").textContent;
+
+                if (nameLocal != nameTag && nameTag != ""){
+                   localStorage.setItem("name",nameTag);
+                }
+            </script>
+
+            <div class="menu">
+                <ul id="trails2">
+
+    <!--                <li>
+                        <span class="material-icons icons-size">person</span>
+                        <a href="{{ url_for('static', filename='my_profile.html') }}">My Profile</a>
+                    </li>
+                    <li>
+                        <span class="material-icons icons-size">login</span>
+                        <a href="{{ url_for('static', filename='signin.html') }}">Login</a>
+                    </li>
+                    <li>
+                        <span class="material-icons icons-size">shopping-bag</span>
+                        <a href="{{ url_for('static', filename='my_orders.html') }}">My Orders</a>
+                    </li>
+                    <li>
+                        <span class="material-icons icons-size">logout</span>
+                        <a href="#">Logout</a>
+                    </li> -->
+
+                </ul>
+            </div>
+        </div>
+        <script>
+            function menuToggle(){
+                const toggleMenu = document.querySelector('.menu');
+                toggleMenu.classList.toggle('active')
+            }
+        </script>
+        <script>
+            let signinText = localStorage.getItem('signin');
+            console.log("!!!!!!!!!!");
+            console.log(signinText);
+
+
+            if (signinText != null){
+                var name = localStorage.getItem("name");
+                document.getElementById("trails1").innerHTML = name;
+
+                 var li1 = document.createElement("li");
+                    var li1Span = document.createElement("span");
+                    li1Span.setAttribute("class","fas fa-user");
+                    li1Span.style.color= 'black';
+                    li1.append(li1Span);
+
+                    var li1Form = document.createElement("Form");
+                    li1Form.setAttribute("action","/my_profile");
+                    li1Form.setAttribute("method","post");
+                        var li1Btn = document.createElement("button");
+                        li1Btn.setAttribute("value", signinText);
+                        li1Btn.setAttribute("name", "email");
+                        li1Btn.innerHTML = "MY PROFILE";
+                        li1Btn.style.color= 'black';
+                        li1Btn.style.fontWeight= 600;
+                        li1Btn.style.fontSize= "14px";
+                        li1Btn.style.border= "None";
+                        li1Btn.style.backgroundColor= "white";
+                        li1Form.append(li1Btn);
+                    li1.append(li1Form);
+                 document.getElementById("trails2").appendChild(li1);
+
+
+                 var li2 = document.createElement("li");
+                    var li2Span = document.createElement("span");
+                    li2Span.setAttribute("class","fas fa-shopping-bag");
+                    li2Span.style.color= 'black';
+                    li2.append(li2Span);
+
+                    var orderIdCheck = localStorage.getItem('order_check');
+                    if (orderIdCheck != '{{order_id}}' && '{{order_id}}' != ""){
+                        localStorage.setItem('order_check', '{{order_id}}');
+                        var orderId = localStorage.getItem('order_check');
+                    }
+                    console.log("00")
+                    console.log(orderIdCheck)
+                    if (orderIdCheck != "no value"){
+                        var li2Form = document.createElement("Form");
+                        li2Form.setAttribute("action","/with_my_orders_first_page");
+                        li2Form.setAttribute("method","post");
+                            var li2Btn = document.createElement("button");
+                            li2Btn.setAttribute("value", signinText);
+                            li2Btn.setAttribute("name", "email");
+                            li2Btn.innerHTML = "MY ORDERS";
+                            li2Btn.style.color= 'black';
+                            li2Btn.style.fontWeight= 600;
+                            li2Btn.style.fontSize= "14px";
+                            li2Btn.style.border= "None";
+                            li2Btn.style.backgroundColor= "white";
+                            li2Form.append(li2Btn);
+                        li2.append(li2Form);
+                    } else {
+                        var li2ATag2 = document.createElement("a");
+                        li2ATag2.setAttribute("href","/no_my_orders");
+                        li2ATag2.innerHTML = "MY ORDERS";
+                        li2ATag2.style.color= 'black';
+                        li2.append(li2ATag2);
+                    }
+                 document.getElementById("trails2").appendChild(li2);
+
+
+                 var li3 = document.createElement("li");
+                    var li3Span = document.createElement("span");
+                    li3Span.setAttribute("class","fas fa-sign-out-alt");
+                    li3Span.style.color= 'black';
+                    li3Span.style.position= 'relative';
+                    li3Span.style.left= '-20px';
+                    li3.append(li3Span);
+
+                    var li3PTag = document.createElement("p");
+                    li3PTag.setAttribute("onclick","logoutFunction()");
+                    li3PTag.innerHTML = "LOGOUT";
+                    li3PTag.style.color= 'black';
+                    li3PTag.style.fontWeight= '100px';
+                    li3PTag.style.fontFamily= 'poppins, sans-serif';
+                    li3.append(li3PTag);
+                 document.getElementById("trails2").appendChild(li3);
+            } else {
+                document.getElementById("trails1").innerHTML = "Hi User !!";
+
+                var li1 = document.createElement("li");
+                    var li1Span = document.createElement("span");
+                    li1Span.setAttribute("class","fas fa-sign-in-alt");
+                    li1Span.style.color= 'black';
+                    li1Span.style.position= 'relative';
+                    li1Span.style.left= '-10px';
+                    li1.append(li1Span);
+
+                    var li1PTag = document.createElement("a");
+                    li1PTag.setAttribute("href", "{{ url_for('static', filename='signin.html') }}");
+                    li1PTag.innerHTML = "LOGIN";
+                    li1PTag.style.color= 'black';
+                    li1PTag.style.position= 'relative';
+                    li1PTag.style.left= '-28px';
+                    li1PTag.style.fontFamily= 'poppins, sans-serif';
+                    li1.append(li1PTag);
+                 document.getElementById("trails2").appendChild(li1);
+
+                var li2 = document.createElement("li");
+                    var li2Span = document.createElement("span");
+                    li2Span.setAttribute("class","fas fa-shopping-bag");
+                    li2Span.style.color= 'black';
+                    li2.append(li2Span);
+
+                    var li2ATag = document.createElement("a");
+                    li2ATag.setAttribute("href","/no_my_orders");
+                    li2ATag.innerHTML = "My Orders";
+                    li2ATag.style.color= 'black';
+                    li2.append(li2ATag);
+                 document.getElementById("trails2").appendChild(li2);
+            }
+
+            function logoutFunction(){
+                localStorage.removeItem('signin');
+
+                location.reload();
+            }
+
+        </script>
+    <!-- profile ends -->
+    </nav>
+  </div>
+
+<!-- header section ends -->
+
+<div class="container-fluid my-5  d-flex  justify-content-center">
+        <div class="card card-1">
+            <div class="card-header bg-white">
+                <div class="media flex-sm-row flex-column-reverse justify-content-between  ">
+                    <div class="col my-auto"> <h4 class="mb-0" style="color:black;">your Orders </h4> </div>
+
+                </div>
+            </div>
+
+            <div class="card-body">
+                <!--<div class="row justify-content-between mb-3">
+                    <div class="col-auto"> <h6 class="color-1 mb-0 change-color">Order ID:</h6> </div>
+                </div>-->
+                {% for my_order_details_loop in my_order_details[1] %}
+                <div class="row mt-4">
+                    <div class="col">
+                        <div class="card card-2">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="sq align-self-center ">
+                                        <img class="img-fluid  my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src={{my_order_details_loop[2]}} width="60" height="40" />
+                                    </div>
+                                    <div class="media-body my-auto text-right">
+                                        <div class="row  my-auto flex-column flex-md-row">
+                                            <div class="col my-auto"> <h6 class="mb-0" style="color:black;">  {{my_order_details_loop[0]}} </h6></div>
+                                            <div class="col my-auto"> <small style="color:black;">Price : &emsp; &emsp; &emsp;{{my_order_details_loop[3]}}</small></div>
+                                            <div class="col my-auto"> <small style="color:black;">Qty : {{my_order_details_loop[1]}}</small></div>
+                                            <div class="col my-auto"><h6 class="mb-0" style="color:black;">{{my_order_details_loop[4]}}</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <!--<div class="row mt-4">
+                    <div class="col">
+                        <div class="card card-2">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="sq align-self-center ">
+                                        <img class="img-fluid  my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="https://i.imgur.com/fUWWpRS.jpg" width="135" height="135" />
+                                    </div>
+                                    <div class="media-body my-auto text-right">
+                                        <div class="row  my-auto flex-column flex-md-row">
+                                            <div class="col-auto my-auto "> <h6 class="mb-0"> Michel Mark</h6> </div>
+                                            <div class="col my-auto  "> <small>Black Rim </small></div>
+                                            <div class="col my-auto  "> <small>Size : L</small></div>
+                                            <div class="col my-auto  "> <small>Qty : 1</small></div>
+                                            <div class="col my-auto ">  <h6 class="mb-0">&#8377;1,235.00</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+
+                <div class="row mt-4">
+                    <div class="col">
+                        <p class="mb-1 text-dark"><b style="color: black;">Order Details</b></p>
+                        <div class="row justify-content-between">
+                            <div class="col-auto"></div>
+                            <div class="flex-sm-col text-right col"> <p class="mb-1"><b style="color: black;">Total</b></p> </div>
+                            <div class="flex-sm-col col-auto"> <p class="mb-1">{{my_order_details[2]}}</p> </div>
+                        </div>
+                        <div class="row justify-content-between">
+                            <div class="flex-sm-col text-right col"><p class="mb-1"> <b style="color: black;">Discount</b></p> </div>
+                            <div class="flex-sm-col col-auto"><p class="mb-1">{{my_order_details[4]}}</p></div>
+                        </div>
+                        <div class="row justify-content-between">
+                            <div class="flex-sm-col text-right col"><p class="mb-1"><b style="color: black;">Other Charges</b></p></div>
+                            <div class="flex-sm-col col-auto"><p class="mb-1">{{my_order_details[3]}}</p></div>
+                        </div>
+                        <!--<div class="row justify-content-between">
+                            <div class="flex-sm-col text-right col"><p class="mb-1"><b>Delivery Charges</b></p></div>
+                            <div class="flex-sm-col col-auto"><p class="mb-1">Free</p></div>
+                        </div>-->
+                    </div>
+                </div>
+                <div class="row invoice">
+                    <div class="col"><p class="mb-1"> Order ID : {{order_id}}</p><p class="mb-1">Order Date : {{my_order_details[0]}}</p></div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="jumbotron-fluid">
+                    <div class="row justify-content-between ">
+
+                        <div class="col-auto my-auto "><h2 class="mb-0 font-weight-bold">TOTAL PAID</h2></div>
+                        <div class="col-auto my-auto ml-auto"><h1 class="display-3 " style="font-size:50px;">{{my_order_details[5]}}</h1></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!----FOOTER--->
+  <div class="main-content" id="footer">
+        <div class="center box">
+          <h2>Address</h2>
+          <div class="content">
+            <div class="place">
+              <span class="fas fa-map-marker-alt"></span>
+              <span class="text" style="color: white; font-weight: 400; font-size: 13px; font-family: 'Poppins', sans-serif;">107/143, RKM House,<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;   Statebank Colony Phase III,<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  Salem-636004.</span>
+            </div>
+            <div class="phone">
+              <span class="fas fa-phone-alt"></span>
+              <span class="text" style="color: white; font-weight: 400; font-size: 13px; font-family: 'Poppins', sans-serif;">9841516915</span>
+            </div>
+            <div class="email">
+              <span class="fas fa-envelope"></span>
+              <span class="text" style="color: white; font-weight: 400; font-size: 13px; font-family: 'Poppins', sans-serif;">milletsmarket@gmail.com</span>
+            </div>
+          </div>
+        </div>
+        <div class="right box">
+          <h2>Our Products</h2>
+          <div class="content">
+              <ul>
+                {% for categories_loop in categories %}
+                <form action="/product_list" method="post" ><li><button style="background-color:black; border:None; font-size:13px; font-weight:25px; color:white;" name="category_name" value="{{categories_loop[1]}}">{{categories_loop[1]}}</button></li></form>
+                {% endfor %}
+              </ul>
+          </div>
+        </div>
+
+          <div class="right box">
+          <h2>Recipes</h2>
+          <div class="content">
+              <ul>
+                  <li><a style="background-color:black; font-size: 14px;" href="/diabetic">Diabetic Corner</a></li>
+                  <li><a style="background-color:black; font-size: 14px;" href="/snacks">Snacks & Recipes</a></li>
+                  <li><a style="background-color:black; font-size: 14px;" href="/meals">Healthy Meals</a></li>
+              </ul><br><br>
+          </div>
+        </div>
+
+          <div class="right box">
+          <h2>Useful Links</h2>
+          <div class="content">
+              <ul>
+                  <form action="/"><li><button style="background-color:black; border:None; font-size: 13px;font-weight: 25px; color:white;">Home</button></li></form>
+                  <li><a href="{{ url_for('static', filename='signin.html') }}">Login</a></li>
+                  <li id="my_order"></li>
+                  <li><a href="/order_summary">My Cart</a></li>
+                  <script>
+                        var email = localStorage.getItem('signin');
+                        console.log(email);
+                        if (email != null){
+                            var orderIdCheck = localStorage.getItem('order_check');
+                            if (orderIdCheck != '{{order_id}}' && '{{order_id}}' != ""){
+                                localStorage.setItem('order_check', '{{order_id}}');
+                                var orderId = localStorage.getItem('order_check');
+                            }
+                            console.log("00")
+                            console.log(orderIdCheck)
+                            if (orderIdCheck != "no value"){
+                                var li2Form = document.createElement("Form");
+                                li2Form.setAttribute("action","/with_my_orders_first_page");
+                                li2Form.setAttribute("method","post");
+                                    var li2Btn = document.createElement("button");
+                                    li2Btn.setAttribute("value", signinText);
+                                    li2Btn.setAttribute("name", "email");
+                                    li2Btn.innerHTML = "My Orders";
+                                    li2Btn.style.color= 'white';
+                                    li2Btn.style.fontWeight= 600;
+                                    li2Btn.style.fontSize= "14px";
+                                    li2Btn.style.border= "None";
+                                    li2Btn.style.backgroundColor= "black";
+                                    li2Form.append(li2Btn);
+                                document.getElementById("my_order").appendChild(li2Form);
+                            } else {
+                                var li2ATag2 = document.createElement("a");
+                                li2ATag2.setAttribute("href","/no_my_orders");
+                                li2ATag2.innerHTML = "My Orders";
+                                li2ATag2.style.color= 'white';
+                                document.getElementById("my_order").appendChild(li2ATag2);
+                            }
+
+                        }else{
+                            var li2ATag = document.createElement("a");
+                            li2ATag.setAttribute("href","/no_my_orders");
+                            li2ATag.innerHTML = "My Orders";
+                            li2ATag.style.color= 'white';
+                            document.getElementById("my_order").appendChild(li2ATag);
+                        }
+
+                  </script>
+              </ul><br>
+          </div>
+        </div>
+
+      </div>
+      <div class="bottom">
+        <center>
+          <span class="credit">Created By <a href="https://www.apsilon.in">Apsilon Technology solutions</a> | </span>
+          <span class="far fa-copyright"></span><span> 2020 All rights reserved.</span>
+        </center>
+      </div><!----FOOTER END---->
+
+</body>
+</html>

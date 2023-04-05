@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>millets market</title>
+     <link rel="stylesheet" href="static/assets/css/header.css">
+    <link rel="stylesheet" href="static/assets/css/footer.css">
+    <link rel="stylesheet" href="static/assets/css/profile.css">
+    <link rel="stylesheet" href="static/assets/css/millet_home.css">
+  <link rel="stylesheet" href="static/assets/css/order_summary.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+    <!-- Favicons -->
+  <link href="static/assets/img/favicon.png" rel="icon">
+  <link href="static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Vendor CSS Files -->
+  <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+    <link rel="stylesheet" href="static/assets/css/swiper-bundle.min.css" />
+
+    <link rel="stylesheet" href="static/assets/css/order_summary.css">
+
+
+    <link href="https://fonts.googleapis.com/css2?
+    family=poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
+
+</head>
+<body style="font-family:Bahnschrift Light">
+<!--header section starts-->
+<div class="wrapper">
+    <nav>
+      <input type="checkbox" id="show-search">
+      <input type="checkbox" id="show-menu">
+      <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+      <div class="content">
+        <div class="logo">Millets Market</div>
+        <ul class="links" style="top:6px;">
+          <li><a href="/" style="margin-left:150px;">Home</a></li>
+          <li style="text-align: left;">
+            <a href="#" class="desktop-link">Products</a>
+            <input type="checkbox">
+            <label for="show-features">Products</label>
+            <ul>
+              {% for categories_loop in categories %}
+                <form action="/product_list" method="post" >
+                    <li><button style="margin-left:80px; text-indent: -90px; background-color:black; font-size: 16px; border-color: black; width: 100%; cursor: pointer; font-family: Poppins, sans-serif; color: white; border:None;" name="category_name" value="{{categories_loop[1]}}">{{categories_loop[1]}}</button></li>
+                </form>
+                {% endfor %}
+            </ul>
+          </li>
+            <li>
+                <a href="#" class="desktop-link">Recipes</a>
+                <input type="checkbox" id="show-features">
+                <label for="show-features">Recipes</label>
+                <ul>
+
+                    <!--<form action="/diabetic" method="post" ><li><button style="background-color:darkSlateGrey">Diabetic Corner</li></form>--->
+                  <li><a href="/diabetic">Diabetic Corner</a></li>
+                  <li><a href="/snacks">Sweets & Snacks</a></li>
+                  <li><a href="/meals">Healthy Meals</a></li>
+                </ul>
+          </li>
+          <li><a href="#footer">Contact Us</a></li>
+        </ul>
+      </div>
+        <a href="/order_summary"><i class="fa fa-shopping-bag" style="font-size:25px;color:goldenrod" id="order_summary"></i></a>
+          <!-- profile -->
+        <div class="action">
+            <div class="profile" onclick="menuToggle();">
+                <img src="static/images/user.png" alt="">
+            </div>
+            <label id="trails1">{{name}}</label>
+
+            <script>
+                var nameLocal = localStorage.getItem("name");
+                var nameTag = document.getElementById("trails1").textContent;
+
+                if (nameLocal != nameTag && nameTag != ""){
+                   localStorage.setItem("name",nameTag);
+                }
+            </script>
+
+            <div class="menu">
+                <ul id="trails2">
+
+    <!--                <li>
+                        <span class="material-icons icons-size">person</span>
+                        <a href="{{ url_for('static', filename='my_profile.html') }}">My Profile</a>
+                    </li>
+                    <li>
+                        <span class="material-icons icons-size">login</span>
+                        <a href="{{ url_for('static', filename='signin.html') }}">Login</a>
+                    </li>
+                    <li>
+                        <span class="material-icons icons-size">shopping-bag</span>
+                        <a href="{{ url_for('static', filename='my_orders.html') }}">My Orders</a>
+                    </li>
+                    <li>
+                        <span class="material-icons icons-size">logout</span>
+                        <a href="#">Logout</a>
+                    </li> -->
+
+                </ul>
+            </div>
+        </div>
+        <script>
+            function menuToggle(){
+                const toggleMenu = document.querySelector('.menu');
+                toggleMenu.classList.toggle('active')
+            }
+        </script>
+        <script>
+            let signinText = localStorage.getItem('signin');
+            console.log("!!!!!!!!!!");
+            console.log(signinText);
+
+
+            if (signinText != null){
+                var name = localStorage.getItem("name");
+                document.getElementById("trails1").innerHTML = name;
+
+                 var li1 = document.createElement("li");
+                    var li1Span = document.createElement("span");
+                    li1Span.setAttribute("class","fas fa-user");
+                    li1Span.style.color= 'black';
+                    li1.append(li1Span);
+
+                    var li1Form = document.createElement("Form");
+                    li1Form.setAttribute("action","/my_profile");
+                    li1Form.setAttribute("method","post");
+                        var li1Btn = document.createElement("button");
+                        li1Btn.setAttribute("value", signinText);
+                        li1Btn.setAttribute("name", "email");
+                        li1Btn.innerHTML = "MY PROFILE";
+                        li1Btn.style.color= 'black';
+                        li1Btn.style.fontWeight= 600;
+                        li1Btn.style.fontSize= "14px";
+                        li1Btn.style.border= "None";
+                        li1Btn.style.backgroundColor= "white";
+                        li1Form.append(li1Btn);
+                    li1.append(li1Form);
+                 document.getElementById("trails2").appendChild(li1);
+
+
+                 var li2 = document.createElement("li");
+                    var li2Span = document.createElement("span");
+                    li2Span.setAttribute("class","fas fa-shopping-bag");
+                    li2Span.style.color= 'black';
+                    li2.append(li2Span);
+
+                    var orderIdCheck = localStorage.getItem('order_check');
+                    if (orderIdCheck != '{{order_id}}' && '{{order_id}}' != ""){
+                        localStorage.setItem('order_check', '{{order_id}}');
+                        var orderId = localStorage.getItem('order_check');
+                    }
+                    console.log("00")
+                    console.log(orderIdCheck)
+                    if (orderIdCheck != "no value"){
+                        var li2Form = document.createElement("Form");
+                        li2Form.setAttribute("action","/with_my_orders_first_page");
+                        li2Form.setAttribute("method","post");
+                            var li2Btn = document.createElement("button");
+                            li2Btn.setAttribute("value", signinText);
+                            li2Btn.setAttribute("name", "email");
+                            li2Btn.innerHTML = "MY ORDERS";
+                            li2Btn.style.color= 'black';
+                            li2Btn.style.fontWeight= 600;
+                            li2Btn.style.fontSize= "14px";
+                            li2Btn.style.border= "None";
+                            li2Btn.style.backgroundColor= "white";
+                            li2Form.append(li2Btn);
+                        li2.append(li2Form);
+                    } else {
+                        var li2ATag2 = document.createElement("a");
+                        li2ATag2.setAttribute("href","/no_my_orders");
+                        li2ATag2.innerHTML = "MY ORDERS";
+                        li2ATag2.style.color= 'black';
+                        li2.append(li2ATag2);
+                    }
+                 document.getElementById("trails2").appendChild(li2);
+
+
+                 var li3 = document.createElement("li");
+                    var li3Span = document.createElement("span");
+                    li3Span.setAttribute("class","fas fa-sign-out-alt");
+                    li3Span.style.color= 'black';
+                    li3Span.style.position= 'relative';
+                    li3Span.style.left= '-20px';
+                    li3.append(li3Span);
+
+                    var li3PTag = document.createElement("p");
+                    li3PTag.setAttribute("onclick","logoutFunction()");
+                    li3PTag.innerHTML = "LOGOUT";
+                    li3PTag.style.color= 'black';
+                    li3PTag.style.fontWeight= '100px';
+                    li3PTag.style.fontFamily= 'poppins, sans-serif';
+                    li3.append(li3PTag);
+                 document.getElementById("trails2").appendChild(li3);
+            } else {
+                document.getElementById("trails1").innerHTML = "Hi User !!";
+
+                var li1 = document.createElement("li");
+                    var li1Span = document.createElement("span");
+                    li1Span.setAttribute("class","fas fa-sign-in-alt");
+                    li1Span.style.color= 'black';
+                    li1Span.style.position= 'relative';
+                    li1Span.style.left= '-10px';
+                    li1.append(li1Span);
+
+                    var li1PTag = document.createElement("a");
+                    li1PTag.setAttribute("href", "{{ url_for('static', filename='signin.html') }}");
+                    li1PTag.innerHTML = "LOGIN";
+                    li1PTag.style.color= 'black';
+                    li1PTag.style.position= 'relative';
+                    li1PTag.style.left= '-28px';
+                    li1PTag.style.fontFamily= 'poppins, sans-serif';
+                    li1.append(li1PTag);
+                 document.getElementById("trails2").appendChild(li1);
+
+                var li2 = document.createElement("li");
+                    var li2Span = document.createElement("span");
+                    li2Span.setAttribute("class","fas fa-shopping-bag");
+                    li2Span.style.color= 'black';
+                    li2.append(li2Span);
+
+                    var li2ATag = document.createElement("a");
+                    li2ATag.setAttribute("href","/no_my_orders");
+                    li2ATag.innerHTML = "My Orders";
+                    li2ATag.style.color= 'black';
+                    li2.append(li2ATag);
+                 document.getElementById("trails2").appendChild(li2);
+            }
+
+            function logoutFunction(){
+                localStorage.removeItem('signin');
+
+                location.reload();
+            }
+
+        </script>
+    <!-- profile ends -->
+    </nav>
+  </div>
+
+<!-- header section ends -->
+<!--------------CART ITEM DETAILS-------->
+
+<div class="small-container cart-page">
+    <h2 style="color:grey;">Order Summary</h2>
+    <table id="tableInfo">
+        <!-- below codes will there be in order_summary.js file -->
+    </table>
+<br><br><br>
+
+
+      <!-- End Services Section -->
+ <div id="total-price">
+    <!-- below codes will there be in order_summary.js file -->
+ </div>
+    <div id="pay-checkout">
+        <!-- payable amount -->
+    </div>
+    <!--<a href="{{ url_for('static', filename='signin.html') }}"><button class="button">Proceed to Checkout</button></a>-->
+
+</div><br><br><br><br><br><br>
+
+<!----FOOTER--->
+  <div class="main-content" id="footer">
+        <div class="center box">
+          <h2>Address</h2>
+          <div class="content">
+            <div class="place">
+              <span class="fas fa-map-marker-alt"></span>
+              <span class="text" style="color: white; font-weight: 400; font-size: 13px; font-family: 'Poppins', sans-serif;">107/143, RKM House,<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;   Statebank Colony Phase III,<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  Salem-636004.</span>
+            </div>
+            <div class="phone">
+              <span class="fas fa-phone-alt"></span>
+              <span class="text" style="color: white; font-weight: 400; font-size: 13px; font-family: 'Poppins', sans-serif;">9841516915</span>
+            </div>
+            <div class="email">
+              <span class="fas fa-envelope"></span>
+              <span class="text" style="color: white; font-weight: 400; font-size: 13px; font-family: 'Poppins', sans-serif;">milletsmarket@gmail.com</span>
+            </div>
+          </div>
+        </div>
+        <div class="right box">
+          <h2>Our Products</h2>
+          <div class="content">
+              <ul>
+                {% for categories_loop in categories %}
+                <form action="/product_list" method="post" ><li><button style="background-color:black; border:None; font-size:13px; font-weight:25px; color:white;" name="category_name" value="{{categories_loop[1]}}">{{categories_loop[1]}}</button></li></form>
+                {% endfor %}
+              </ul>
+          </div>
+        </div>
+
+          <div class="right box">
+          <h2>Recipes</h2>
+          <div class="content">
+              <ul>
+                  <li><a style="background-color:black; font-size: 14px;" href="/diabetic">Diabetic Corner</a></li>
+                  <li><a style="background-color:black; font-size: 14px;" href="/snacks">Snacks & Recipes</a></li>
+                  <li><a style="background-color:black; font-size: 14px;" href="/meals">Healthy Meals</a></li>
+              </ul><br><br>
+          </div>
+        </div>
+
+          <div class="right box">
+          <h2>Useful Links</h2>
+          <div class="content">
+              <ul>
+                  <form action="/"><li><button style="background-color:black; border:None; font-size: 13px;font-weight: 25px; color:white;">Home</button></li></form>
+                  <li><a href="{{ url_for('static', filename='signin.html') }}">Login</a></li>
+                  <li id="my_order"></li>
+                  <li><a href="/order_summary">My Cart</a></li>
+                  <script>
+                        var email = localStorage.getItem('signin');
+                        console.log(email);
+                        if (email != null){
+                            var orderIdCheck = localStorage.getItem('order_check');
+                            if (orderIdCheck != '{{order_id}}' && '{{order_id}}' != ""){
+                                localStorage.setItem('order_check', '{{order_id}}');
+                                var orderId = localStorage.getItem('order_check');
+                            }
+                            console.log("00")
+                            console.log(orderIdCheck)
+                            if (orderIdCheck != "no value"){
+                                var li2Form = document.createElement("Form");
+                                li2Form.setAttribute("action","/with_my_orders_first_page");
+                                li2Form.setAttribute("method","post");
+                                    var li2Btn = document.createElement("button");
+                                    li2Btn.setAttribute("value", signinText);
+                                    li2Btn.setAttribute("name", "email");
+                                    li2Btn.innerHTML = "My Orders";
+                                    li2Btn.style.color= 'white';
+                                    li2Btn.style.fontWeight= 600;
+                                    li2Btn.style.fontSize= "14px";
+                                    li2Btn.style.border= "None";
+                                    li2Btn.style.backgroundColor= "black";
+                                    li2Form.append(li2Btn);
+                                document.getElementById("my_order").appendChild(li2Form);
+                            } else {
+                                var li2ATag2 = document.createElement("a");
+                                li2ATag2.setAttribute("href","/no_my_orders");
+                                li2ATag2.innerHTML = "My Orders";
+                                li2ATag2.style.color= 'white';
+                                document.getElementById("my_order").appendChild(li2ATag2);
+                            }
+
+                        }else{
+                            var li2ATag = document.createElement("a");
+                            li2ATag.setAttribute("href","/no_my_orders");
+                            li2ATag.innerHTML = "My Orders";
+                            li2ATag.style.color= 'white';
+                            document.getElementById("my_order").appendChild(li2ATag);
+                        }
+
+                  </script>
+              </ul><br>
+          </div>
+        </div>
+
+      </div>
+      <div class="bottom">
+        <center>
+          <span class="credit">Created By <a href="https://www.apsilon.in">Apsilon Technology solutions</a> | </span>
+          <span class="far fa-copyright"></span><span> 2020 All rights reserved.</span>
+        </center>
+      </div><!----FOOTER END---->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="static/assets/js/order_summary.js"></script>
+</body>
+</html>

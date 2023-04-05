@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Authentication required</title>
+    <link rel="stylesheet" href="static/assets/css/signup.css">
+</head>
+<body>
+<form action="/validate" method="post">
+  <div class="box">
+    <div class="form">
+      <h2>Verification required </h2><br>
+        <p style="color:grey;">To continue,complete this verification step. We've
+        sent an OTP to your email id. Please enter it below to complete verification</p>
+      <div class="inputBox">
+          <input type="text" required="required" name="otp">
+          <span>Enter OTP</span>
+          <i></i>
+      </div>
+      <input type="submit" value="Continue">
+      <div class="links">
+          <a href="#">Resend OTP</a>
+      </div>
+
+  </div>
+  </div>
+</form>
+</body>
+</html>

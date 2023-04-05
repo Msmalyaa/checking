@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Millets Market Home</title>
+
+    <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery-js/1.4.0/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+   <!-- custom css file link  -->
+   <!--<link rel="stylesheet" href="assets/css/index.css">
+   <link rel="stylesheet" href="assets/css/footer.css">---->
+    <link rel="stylesheet" href="static/assets/css/header.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/profile.css') }}">
+
+    <!---search bar---->
+    <style>
+
+
+/*SEARCH BAR NEW*/
+
+   .search-container {
+  position: relative;
+}
+#suggestions {
+  list-style: none;
+  padding:0;
+  margin:0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  z-index: 100;
+}
+#suggestions li {
+  left:-42%;
+  width: 16%;
+  background-color: black;
+  padding: 5px;
+  margin-bottom:1px;
+  cursor: pointer;
+}
+#suggestions li:hover {
+  background-color: #ccc;
+  color:black;
+}
+
+@media screen and (max-width: 1250px){
+    #suggestions li{
+       left:-20%;
+        width: 50%;
+    }
+}
+</style>
+
+</head>
+<body>
+
+
+   
+<!--header section starts-->
+<div class="wrapper">
+    <nav>
+      <input type="checkbox" id="show-search">
+      <input type="checkbox" id="show-menu">
+      <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+      <div class="content">
+        <div class="logo">Millets Market</div>
+        <ul class="links" style="top:6px;">
+          <li><a href="/" style="margin-left:150px;">Home</a></li>
+          <li style="text-align: left;">
+            <a href="#" class="desktop-link">Products</a>
+            <input type="checkbox">
+            <label for="show-features">Products</label>
+            <ul>
+              {% for categories_loop in categories %}
+                <form action="/product_list" method="post" >
+                    <li><button style="margin-left:60px; text-indent: -50px; background-color:black; font-size: 16px; border-color: black; width: 100%; cursor: pointer; font-family: Poppins, sans-serif; color: white; border:None;" name="category_name" value="{{categories_loop[1]}}">{{categories_loop[1]}}</button></li>
+                </form>
+                {% endfor %}
+            </ul>
+          </li>
+            <li>
+                <a href="#" class="desktop-link">Recipes</a>
+                <input type="checkbox" id="show-features">
+                <label for="show-features">Recipes</label>
+                <ul style="width: 200px;">
+
+                    <!--<form action="/diabetic" method="post" ><li><button style="background-color:darkSlateGrey">Diabetic Corner</li></form>--->
+                  <li><a href="/diabetic">Diabetic Corner</a></li>
+                  <li><a href="/snacks">Sweets & Snacks</a></li>
+                  <li><a href="/meals">Healthy Meals</a></li>
+                </ul>
+          </li>
+          <li><a href="#footer">Contact Us</a></li>
+        </ul>
+      </div>
+        <a href="/order_summary"><i class="fa fa-shopping-bag" style="font-size:25px;color:goldenrod" id="order_summary"></i></a>
+          <!-- profile -->
+        <div class="action" id="action">
+            <div class="profile" onclick="menuToggle();">
+                <img src="static/images/user.png" alt="">
+            </div>
+            <!--<label id="trails1">{{name}}</label>-->
+            <script>
+                console.log("%%%%%%%%%%%%%%%")
+                if ("{{name}}" != ""){
+                    var nameTag = "{{name}}";
+                    console.log("222");
+                    console.log(nameTag);
+                   localStorage.setItem("name","{{name}}");
+                   localStorage.setItem("signin","{{email}}");
+                }
+            </script>
+            <script>
+                var label = document.createElement("label");
+                label.setAttribute('id', 'trails1');
+                var name = localStorage.getItem('name');
+
+                label.innerHTML = name;
+                document.getElementById('action').appendChild(label);
+            </script>
+
+            <div class="menu">
+                <ul id="trails2">
+
+    <!--                <li>
+                        <span class="material-icons icons-size">person</span>
+                        <a href="{{ url_for('static', filename='my_profile.html') }}">My Profile</a>
+                    </li>
+                    <li>
+                        <span class="material-icons icons-size">login</span>
+                        <a href="{{ url_for('static', filename='signin.html') }}">Login</a>
+                    </li>
+                    <li>
+                        <span class="material-icons icons-size">shopping-bag</span>
+                        <a href="{{ url_for('static', filename='my_orders.html') }}">My Orders</a>
+                    </li>
+                    <li>
+                        <span class="material-icons icons-size">logout</span>
+                        <a href="#">Logout</a>
+                    </li> -->
+
+                </ul>
+            </div>
+        </div>
+        <script>
+            function menuToggle(){
+                const toggleMenu = document.querySelector('.menu');
+                toggleMenu.classList.toggle('active')
+            }
+        </script>
+        <script>
+            let signinText = localStorage.getItem('signin');
+            console.log("!!!!!!!!!!");
+            console.log(signinText);
+
+
+            if (signinText != null){
+                var name = localStorage.getItem("name");
+                document.getElementById("trails1").innerHTML = name;
+
+                 var li1 = document.createElement("li");
+                    var li1Span = document.createElement("span");
+                    li1Span.setAttribute("class","fas fa-user");
+                    li1Span.style.color= 'black';
+                    li1.append(li1Span);
+
+                    var li1Form = document.createElement("Form");
+                    li1Form.setAttribute("action","/my_profile");
+                    li1Form.setAttribute("method","post");
+                        var li1Btn = document.createElement("button");
+                        li1Btn.setAttribute("value", signinText);
+                        li1Btn.setAttribute("name", "email");
+                        li1Btn.innerHTML = "MY PROFILE";
+                        li1Btn.style.color= 'black';
+                        li1Btn.style.fontWeight= 600;
+                        li1Btn.style.fontSize= "14px";
+                        li1Btn.style.border= "None";
+                        li1Btn.style.backgroundColor= "white";
+                        li1Form.append(li1Btn);
+                    li1.append(li1Form);
+                 document.getElementById("trails2").appendChild(li1);
+
+
+                 var li2 = document.createElement("li");
+                    var li2Span = document.createElement("span");
+                    li2Span.setAttribute("class","fas fa-shopping-bag");
+                    li2Span.style.color= 'black';
+                    li2.append(li2Span);
+
+                    var orderIdCheck = localStorage.getItem('order_check');
+                    if (orderIdCheck != '{{order_id}}' && '{{order_id}}' != ""){
+                        localStorage.setItem('order_check', '{{order_id}}');
+                        var orderId = localStorage.getItem('order_check');
+                    }
+                    console.log("00")
+                    console.log(orderIdCheck)
+                    if (orderIdCheck != "no value"){
+                        var li2Form = document.createElement("Form");
+                        li2Form.setAttribute("action","/with_my_orders_first_page");
+                        li2Form.setAttribute("method","post");
+                            var li2Btn = document.createElement("button");
+                            li2Btn.setAttribute("value", signinText);
+                            li2Btn.setAttribute("name", "email");
+                            li2Btn.innerHTML = "MY ORDERS";
+                            li2Btn.style.color= 'black';
+                            li2Btn.style.fontWeight= 600;
+                            li2Btn.style.fontSize= "14px";
+                            li2Btn.style.border= "None";
+                            li2Btn.style.backgroundColor= "white";
+                            li2Form.append(li2Btn);
+                        li2.append(li2Form);
+                    } else {
+                        var li2ATag2 = document.createElement("a");
+                        li2ATag2.setAttribute("href","/no_my_orders");
+                        li2ATag2.innerHTML = "MY ORDERS";
+                        li2ATag2.style.color= 'black';
+                        li2.append(li2ATag2);
+                    }
+                 document.getElementById("trails2").appendChild(li2);
+
+
+                 var li3 = document.createElement("li");
+                    var li3Span = document.createElement("span");
+                    li3Span.setAttribute("class","fas fa-sign-out-alt");
+                    li3Span.style.color= 'black';
+                    li3Span.style.position= 'relative';
+                    li3Span.style.left= '-20px';
+                    li3.append(li3Span);
+
+                    var li3PTag = document.createElement("p");
+                    li3PTag.setAttribute("onclick","logoutFunction()");
+                    li3PTag.innerHTML = "LOGOUT";
+                    li3PTag.style.color= 'black';
+                    li3PTag.style.fontWeight= '100px';
+                    li3PTag.style.fontFamily= 'poppins, sans-serif';
+                    li3.append(li3PTag);
+                 document.getElementById("trails2").appendChild(li3);
+            } else {
+                document.getElementById("trails1").innerHTML = "Hi User !!";
+
+                var li1 = document.createElement("li");
+                    var li1Span = document.createElement("span");
+                    li1Span.setAttribute("class","fas fa-sign-in-alt");
+                    li1Span.style.color= 'black';
+                    li1Span.style.position= 'relative';
+                    li1Span.style.left= '-10px';
+                    li1.append(li1Span);
+
+                    var li1PTag = document.createElement("a");
+                    li1PTag.setAttribute("href", "{{ url_for('static', filename='signin.html') }}");
+                    li1PTag.innerHTML = "LOGIN";
+                    li1PTag.style.color= 'black';
+                    li1PTag.style.position= 'relative';
+                    li1PTag.style.left= '-28px';
+                    li1PTag.style.fontFamily= 'poppins, sans-serif';
+                    li1.append(li1PTag);
+                 document.getElementById("trails2").appendChild(li1);
+
+                var li2 = document.createElement("li");
+                    var li2Span = document.createElement("span");
+                    li2Span.setAttribute("class","fas fa-shopping-bag");
+                    li2Span.style.color= 'black';
+                    li2.append(li2Span);
+
+                    var li2ATag = document.createElement("a");
+                    li2ATag.setAttribute("href","/no_my_orders");
+                    li2ATag.innerHTML = "My Orders";
+                    li2ATag.style.color= 'black';
+                    li2.append(li2ATag);
+                 document.getElementById("trails2").appendChild(li2);
+            }
+
+            function logoutFunction(){
+                console.log("88888");
+                localStorage.removeItem('signin');
+                localStorage.removeItem('name');
+                localStorage.removeItem('order_check');
+
+                location.reload();
+            }
+
+        </script>
+    <!-- profile ends -->
+    </nav>
+  </div>
+
+<!-- header section ends -->
+
+<!---- search code and script --->
+<div class="search-container">
+  <form action="/product" method="post">
+  <input type="text" id="search" placeholder="Type here" name="product_name" style="color: black;">
+  <button id="search-btn" style="background-color: goldenrod; color: black; padding: 5px;">Search</button>
+  </form>
+  <ul id="suggestions"></ul>
+</div>
+
+<script>
+
+const searchInput = document.getElementById('search');
+const searchBtn = document.getElementById('search-btn');
+const suggestions = document.getElementById('suggestions');
+
+const fruits = ['Foxtail Millet', 'Kodo Millet', 'Little Millet', 'Barnyard Millet', 'Finger Millet', 'Black Rice', 'Mapilai Samba', 'Thooyamalli', 'Seeraga Samba', 'Red Rice', 'Toor Dal', 'Urad Dal', 'Moong Dal', 'Peanut', 'Toor Dal Traditional', 'Palm Jaggery', 'Country Sugar', 'Jaggery', 'Raw Honey', 'Groundnut Oil', 'Coconut Oil', 'Gingely Oil', 'Castor Oil']
+
+function showSuggestions(filteredFruits) {
+  suggestions.innerHTML = '';
+  filteredFruits.forEach((filteredFruit) => {
+    const li = document.createElement('li');
+    li.textContent = filteredFruit;
+    suggestions.appendChild(li);
+  });
+  suggestions.style.display = 'block';
+}
+
+searchInput.addEventListener('input', () => {
+  const searchTerm = searchInput.value.toLowerCase();
+  const filteredFruits = fruits.filter((fruit) => fruit.toLowerCase().includes(searchTerm));
+
+  if (searchTerm.length > 0) {
+    showSuggestions(filteredFruits);
+  } else {
+    suggestions.style.display = 'none';
+  }
+});
+
+searchBtn.addEventListener('click', () => {
+  const searchTerm = searchInput.value.toLowerCase();
+  const filteredFruits = fruits.filter((fruit) => fruit.toLowerCase().includes(searchTerm));
+
+  console.log('Search for:', searchTerm);
+  console.log('Matching fruits:', filteredFruits);
+});
+
+document.addEventListener('click', (e) => {
+  if (!e.target.matches('.search-container *')) {
+    suggestions.style.display = 'none';
+  }
+});
+
+suggestions.addEventListener('click', (e) => {
+  if (e.target.tagName === 'LI') {
+    searchInput.value = e.target.textContent;
+    suggestions.style.display = 'none';
+  }
+});
+</script>
+
+<!-- home section starts  -->
+
+<section class="home" id="home">
+   <div class="swiper home-slider">
+      <div class="swiper-wrapper">
+          <div class="swiper-slide slide" style="background: url(static/images/big_slides/slide4.jpg) no-repeat;">
+            <div class="content">
+               <h3 style="font-size:75px;text-align:center;" id="direct_farmer">Direct from farmers with love</h3>
+               <!--<a href="#" class="btn">Buy Now</a>-->
+            </div>
+          </div>
+
+         <div class="swiper-slide slide" style="background: url(static/images/big_slides/slide1.jpg) no-repeat;">
+            <div class="content">
+               <span>Better you will feel if you eat a Healthy Meal.</span>
+               <h3 style="text-align:center;">Healthy Meals</h3>
+               <a href="#sweets&snacks" class="btn">Buy Now</a>
+            </div>
+         </div>
+
+         <div class="swiper-slide slide" style="background: url(static/images/big_slides/slide2.jpg) no-repeat;">
+            <div class="content">
+               <span>Taste the nutrition in every bite.</span>
+               <h3 style="text-align:center;">Delicious Crisps</h3>
+               <a href="#sweets&snacks" class="btn">Buy Now</a>
+            </div>
+         </div>
+
+         <div class="swiper-slide slide" style="background: url(static/images/big_slides/slide3.jpg) no-repeat;">
+            <div class="content">
+               <span>Increase sweetness in your words,not in your blood</span>
+               <h3 style="text-align:center;">Diabetic Corner</h3>
+               <a href="#sweets&snacks" class="btn">Buy Now</a>
+            </div>
+         </div>
+
+
+
+      </div>
+
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+
+   </div>
+
+</section>
+
+<!-- home section ends -->
+
+<!-- about section starts  -->
+
+<section class="about">
+
+   <div class="image">
+      <img src="static/images/millets/all_millets.png" alt="image not found">
+   </div>
+
+   <div class="content">
+      <h3 class="title">Millets Market</h3>
+      <p>We procure all our product ranges straight through farm fields that cultivate organic nourishment and ensure hygienic packing and prompt delivery to our customers</p>
+      <!--<a href="#" class="btn">read more</a>-->
+      <!--<div class="icons-container">
+         <div class="icons">
+            <img src="images/about-icon-1.png" alt="">
+            <h3>quality food</h3>
+         </div>
+         <div class="icons">
+            <img src="images/about-icon-2.png" alt="">
+            <h3>food & drinks</h3>
+         </div>
+         <div class="icons">
+            <img src="images/about-icon-3.png" alt="">
+            <h3>expert chefs</h3>
+         </div>
+      </div>-->
+   </div>
+
+</section>
+
+
+
+
+
+
+
+<section class="blogs" id="categories">
+
+   <div class="heading">
+      <!--<span>our blogs</span>-->
+      <h3>Categories</h3>
+   </div>
+
+   <div class="swiper blogs-slider">
+      <div class="swiper-wrapper">
+          {% for category_loop in categories %}
+         <div class="swiper-slide slide">
+
+            <div class="image">
+               <img src="{{ url_for('static', filename= category_loop[2])}}" alt="">
+               <!--<span>burger</span>-->
+            </div>
+            <div class="cate-content">
+
+               <a href="#" class="title" style="color: black; font-size: 17px;">{{category_loop[1]}}</a>
+                <br>
+                <form action="/product_list" method="post">
+                    <button class="btn" value="{{category_loop[1]}}" name="category_name" style="float: right; margin-top:-28px;">Explore all</button>
+                </form>
+            </div>
+
+         </div>
+          {% endfor %}
+      </div>
+
+      <div class="swiper-pagination"></div>
+
+   </div>
+
+</section>
+
+
+<!-- about section ends -->
+
+<!-- food section starts  -->
+
+<!--<section class="food" id="food">
+
+   <div class="heading">  
+      <span>popular dishes</span>
+      <h3>Categories</h3>
+   </div>
+
+   <div class="swiper food-slider">
+
+      <div class="swiper-wrapper">
+        {% for category_loop in categories %}
+         <div class="swiper-slide slide" data-name="food-1">
+            <img src="{{ url_for('static', filename= category_loop[2])}}" alt="">
+            <h3>{{category_loop[1]}}</h3>
+         </div>
+        {% endfor %}
+      </div>
+
+      <div class="swiper-pagination"></div>
+
+   </div>
+
+</section>-->
+
+<!-- food section ends -->
+
+<!-- food preview section starts  -->
+
+<section class="food-preview-container">
+
+   <div id="close-preview" class="fas fa-times"></div>
+
+   <div class="food-preview" data-target="food-1">
+
+      <h3></h3>
+      <p></p>
+      <div class="price"></div>
+      <a href="{{ url_for('static', filename='millet_home.html') }}" class="btn">Buy now</a>
+
+   </div>
+
+</section>
+
+<!-- food preview section ends -->
+
+<!-- blogs section starts  -->
+<section class="blogs" id="blogs">
+
+   <div class="heading">
+      <!--<span>our blogs</span>-->
+      <h3>Best Sellers</h3>
+   </div>
+
+   <div class="swiper blogs-slider">
+      <div class="swiper-wrapper">
+          {% for best_sellers_loop in best_sellers %}
+         <div class="swiper-slide slide">
+
+            <div class="image">
+               <img src="{{ url_for('static', filename= best_sellers_loop[2])}}" alt="">
+               <!--<span>burger</span>-->
+            </div>
+            <div class="content">
+
+               <a href="#" class="title" style="color: black; font-size:20px;">{{best_sellers_loop[0]}}</a>
+                {% if best_sellers_loop[0]  in oil %}
+                    <p style="color: black; font-size: 13px; margin-top: -13px;">Rs. {{best_sellers_loop[1]}} per ltr</p>
+                {% else %}
+                    <p style="color: black; font-size: 13px; margin-top: -13px;">Rs. {{best_sellers_loop[1]}} per kg</p>
+                {% endif %}
+                <form action="/product" method="post">
+                <button class="btn" value="{{best_sellers_loop[0]}}" name="product_name" style="float: right; margin-top: -70px;">Buy now</button>
+                </form>
+
+            </div>
+
+         </div>
+          {% endfor %}
+      </div>
+
+      <div class="swiper-pagination"></div>
+
+   </div>
+
+</section>
+
+<!-- blogs section ends -->
+
+<!-- about section starts  -->
+<div class="heading">
+      <!--<span>our blogs</span>-->
+      <h3>Recipes</h3>
+   </div>
+<section class="about" id="sweets&snacks">
+
+   <div class="image" >
+      <img src="static/images/recipes/snack1.jpg" alt="">
+   </div>
+
+   <div class="content">
+      <h3 class="title">Sweets & Crisps</h3>
+      <p>Interested to try some tasty snacks! We guide you to choose our products better</p>
+      <form action="/snacks">
+      <button class="btn">read more</button>
+       </form>
+   </div>
+
+   <div class="image">
+      <img src="static/images/recipes/snack2.jpg" alt="">
+   </div>
+
+   <div class="content">
+      <h3 class="title">Healthy Meals</h3>
+      <p>New to millets? We help you choose our wide range of products based on your taste buds</p>
+      <form action="/meals">
+      <button class="btn">read more</button>
+       </form>
+   </div>
+
+   <div class="image">
+      <img src="static/images/recipes/snack3.jpg" alt="">
+   </div>
+
+   <div class="content">
+      <h3 class="title">Diabetic Corner</h3>
+      <p>Are you diabetic? We bring you the most nutritional product ranges that keeps you in good health</p>
+       <form action="/diabetic">
+      <button class="btn">read more</button>
+       </form>
+   </div>
+
+</section>
+<!-- about section ends -->
+
+<!----FOOTER--->
+  <div class="main-content" id="footer">
+        <div class="center box">
+          <h2>Address</h2>
+          <div class="content">
+            <div class="place">
+              <span class="fas fa-map-marker-alt"></span>
+              <span class="text" style="color: white; font-weight: 400; font-size: 13px; font-family: 'Poppins', sans-serif;">107/143, RKM House,<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;   Statebank Colony Phase III,<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  Salem-636004.</span>
+            </div>
+            <div class="phone">
+              <span class="fas fa-phone-alt"></span>
+              <span class="text" style="color: white; font-weight: 400; font-size: 13px; font-family: 'Poppins', sans-serif;">9841516915</span>
+            </div>
+            <div class="email">
+              <span class="fas fa-envelope"></span>
+              <span class="text" style="color: white; font-weight: 400; font-size: 13px; font-family: 'Poppins', sans-serif;">milletsmarket@gmail.com</span>
+            </div>
+          </div>
+        </div>
+        <div class="right box">
+          <h2>Our Products</h2>
+          <div class="content">
+              <ul>
+                {% for categories_loop in categories %}
+                <form action="/product_list" method="post" ><li><button style="background-color:black; border:None; font-size:13px; font-weight:25px; color:white;" name="category_name" value="{{categories_loop[1]}}">{{categories_loop[1]}}</button></li></form>
+                {% endfor %}
+              </ul>
+          </div>
+        </div>
+
+          <div class="right box">
+          <h2>Recipes</h2>
+          <div class="content">
+              <ul>
+                  <li><a style="background-color:black; font-size: 14px;" href="/diabetic">Diabetic Corner</a></li>
+                  <li><a style="background-color:black; font-size: 14px;" href="/snacks">Snacks & Recipes</a></li>
+                  <li><a style="background-color:black; font-size: 14px;" href="/meals">Healthy Meals</a></li>
+              </ul><br><br>
+          </div>
+        </div>
+
+          <div class="right box">
+          <h2>Useful Links</h2>
+          <div class="content">
+              <ul>
+                  <form action="/"><li><button style="background-color:black; border:None; font-size: 13px;font-weight: 25px; color:white;">Home</button></li></form>
+                  <li><a href="{{ url_for('static', filename='signin.html') }}">Login</a></li>
+                  <li id="my_order"></li>
+                  <li><a href="/order_summary">My Cart</a></li>
+                  <script>
+                        var email = localStorage.getItem('signin');
+                        console.log(email);
+                        if (email != null){
+                            var orderIdCheck = localStorage.getItem('order_check');
+                            if (orderIdCheck != '{{order_id}}' && '{{order_id}}' != ""){
+                                localStorage.setItem('order_check', '{{order_id}}');
+                                var orderId = localStorage.getItem('order_check');
+                            }
+                            console.log("00")
+                            console.log(orderIdCheck)
+                            if (orderIdCheck != "no value"){
+                                var li2Form = document.createElement("Form");
+                                li2Form.setAttribute("action","/with_my_orders_first_page");
+                                li2Form.setAttribute("method","post");
+                                    var li2Btn = document.createElement("button");
+                                    li2Btn.setAttribute("value", signinText);
+                                    li2Btn.setAttribute("name", "email");
+                                    li2Btn.innerHTML = "My Orders";
+                                    li2Btn.style.color= 'white';
+                                    li2Btn.style.fontWeight= 600;
+                                    li2Btn.style.fontSize= "14px";
+                                    li2Btn.style.border= "None";
+                                    li2Btn.style.backgroundColor= "black";
+                                    li2Form.append(li2Btn);
+                                document.getElementById("my_order").appendChild(li2Form);
+                            } else {
+                                var li2ATag2 = document.createElement("a");
+                                li2ATag2.setAttribute("href","/no_my_orders");
+                                li2ATag2.innerHTML = "My Orders";
+                                li2ATag2.style.color= 'white';
+                                document.getElementById("my_order").appendChild(li2ATag2);
+                            }
+
+                        }else{
+                            var li2ATag = document.createElement("a");
+                            li2ATag.setAttribute("href","/no_my_orders");
+                            li2ATag.innerHTML = "My Orders";
+                            li2ATag.style.color= 'white';
+                            document.getElementById("my_order").appendChild(li2ATag);
+                        }
+
+                  </script>
+              </ul><br>
+          </div>
+        </div>
+
+      </div>
+      <div class="bottom">
+        <center>
+          <span class="credit">Created By <a href="https://www.apsilon.in">Apsilon Technology solutions</a> | </span>
+          <span class="far fa-copyright"></span><span> 2020 All rights reserved.</span>
+        </center>
+      </div><!----FOOTER END---->
+
+<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery-js/1.4.0/js/lightgallery.min.js"></script>
+
+<!-- custom js file link  -->
+<script src="{{ url_for('static', filename='assets/js/index.js') }}"></script>
+
+<script>
+   lightGallery(document.querySelector('.gallery .gallery-container'));
+</script>
+
+
+
+</body>
+</html>

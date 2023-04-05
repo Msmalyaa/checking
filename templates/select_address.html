@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/select_address.css') }}">
+    <style>
+        .razorpay-payment-button{
+            color: black;
+            margin: 0;
+            position: absolute;
+            left: 45%;
+            transform: translateY(-50%);
+            background-color: goldenrod;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <form action="/success" method="post">
+
+        <div class="row">
+
+            <div class="col">
+
+                <h3 class="title">billing address</h3>
+                <div class="inputBox" id="inputBox1">
+                  <label class="contain">Address
+                  <input type="radio" checked="checked" name="radio" id="radio1">
+                  <span class="checkmark"></span>
+                  </label>
+                       {% for address_loop in address %}
+                            <h4>&emsp;&emsp;Address &nbsp;:&nbsp;  {{address_loop[0]}}</h4>
+                            <h4>&emsp;&emsp;City &emsp;&emsp;&nbsp;:&nbsp;  {{address_loop[1]}}</h4>
+                            <h4>&emsp;&emsp;State &emsp;&nbsp;&nbsp;&nbsp;:&nbsp;  {{address_loop[2]}}</h4>
+                            <h4>&emsp;&emsp;Pincode &nbsp;:&nbsp;  {{address_loop[3]}}</h4>
+                            <h4>&emsp;&emsp;Phone &emsp;&nbsp;:&nbsp;  {{address_loop[4]}}</h4>
+                            <script>
+                                var email = localStorage.getItem('signin');
+                                var input1 = document.createElement('input');
+                                input1.setAttribute('type','hidden');
+                                input1.setAttribute('name','email');
+                                input1.setAttribute('value',email);
+                                document.getElementById('inputBox1').appendChild(input1);
+                            </script>
+                            <input type="hidden" name="address" value="{{address_loop[0]}}">
+                            <input type="hidden" name="city" value="{{address_loop[1]}}">
+                            <input type="hidden" name="state" value="{{address_loop[2]}}">
+                            <input type="hidden" name="pincode" value="{{address_loop[3]}}">
+                            <input type="hidden" name="phone" value="{{address_loop[4]}}">
+
+
+                        <!--<input type="text"  value="{{address_loop[0]}}" name="address" id="r1ip1" readonly>
+                        <input type="text"  value="{{address_loop[1]}}" name="city" id="r1ip2" readonly>
+                        <input type="text"  value="{{address_loop[2]}}" name="state" id="r1ip3" readonly>
+                        <input type="text"  value="{{address_loop[3]}}" name="pincode" id="r1ip4" readonly>
+                        <input type="text"  value="{{address_loop[4]}}" name="phone" id="r1ip5" readonly>-->
+                        {% endfor %}
+                </div>
+                <div class="inputBox" id="inputBox2">
+                    <label class="contain">Alternative address
+                  <input type="radio"  name="radio" id="radio2">
+                  <span class="checkmark"></span>
+                  </label>
+
+                    <script>
+                       var email = localStorage.getItem('signin');
+                       var input2 = document.createElement('input');
+                       input2.setAttribute('type','hidden');
+                       input2.setAttribute('name','email');
+                       input2.setAttribute('value',email);
+                       document.getElementById('inputBox2').appendChild(input2);
+                    </script>
+                    <input type="text" placeholder="address" id="r2ip1">
+                    <input type="text" placeholder="city" id="r2ip2">
+                    <input type="text" placeholder="state" id="r2ip3">
+                    <input type="text" placeholder="pincode" id="r2ip4">
+                    <input type="text" placeholder="phone" id="r2ip5">
+                </div>
+            </div>
+            <script>
+                const button1 = document.getElementById("radio1");
+                const button2 = document.getElementById("radio2");
+
+                // function to disable the button
+                const disableButton1 = () => {
+                    document.getElementById("r1ip1").removeAttribute("name");
+                    document.getElementById("r1ip2").removeAttribute("name");
+                    document.getElementById("r1ip3").removeAttribute("name");
+                    document.getElementById("r1ip4").removeAttribute("name");
+                    document.getElementById("r1ip5").removeAttribute("name");
+
+                    document.getElementById("r2ip1").setAttribute("name","address");
+                    document.getElementById("r2ip2").setAttribute("name","city");
+                    document.getElementById("r2ip3").setAttribute("name","state");
+                    document.getElementById("r2ip4").setAttribute("name","pincode");
+                    document.getElementById("r2ip5").setAttribute("name","phone");
+                };
+                // calling the disableButton() function when the click event happens
+                button2.addEventListener("click", disableButton1);
+
+                const disableButton2 = () => {
+                    // removes name attribute from opposite condition part
+                    document.getElementById("r2ip1").removeAttribute("name");
+                    document.getElementById("r2ip2").removeAttribute("name");
+                    document.getElementById("r2ip3").removeAttribute("name");
+                    document.getElementById("r2ip4").removeAttribute("name");
+                    document.getElementById("r2ip5").removeAttribute("name");
+
+                    document.getElementById("r1ip1").setAttribute("name","address");
+                    document.getElementById("r1ip2").setAttribute("name","city");
+                    document.getElementById("r1ip3").setAttribute("name","state");
+                    document.getElementById("r1ip4").setAttribute("name","pincode");
+                    document.getElementById("r1ip5").setAttribute("name","phone");
+                };
+                // calling the disableButton() function when the click event happens
+                button1.addEventListener("click", disableButton2);
+            </script>
+        </div>
+
+
+        <!--<input type="submit" value="proceed to pay" class="submit-btn">-->
+        <script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          data-key="rzp_test_bmmQoqTk2kXBR1"
+          data-amount="{{payment['amount']}}"
+          data-currency="INR"
+          data-order_id="{{payment['order_id']}}"
+          data-buttontext="Proceed to Pay"
+          data-name={{name}}
+          data-description="Test transaction"
+          data-theme.color="#F37254">
+
+          </script>
+    </form>
+</div>
+
+</body>
+</html>

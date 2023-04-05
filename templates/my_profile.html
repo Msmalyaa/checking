@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="static/assets/css/customer_details.css">
+</head>
+<body>
+
+  <div class="box">
+    <div class="form">
+      <h2>Your Profile</h2>
+        <form method="post" action="/my_profile_save">
+          {% for db_value_loop in db_value %}
+            <div class="inputBox" id="edit">
+              <span>Phone</span>
+                <input id="phoneText" type="text" name=phone value="{{db_value_loop[4]}}" required="required" readonly>
+            </div>
+              <div class="inputBox">
+                <span>Name</span>
+                <input id="nameText" type="text" name=username value="{{db_value_loop[1]}}" required="required" readonly>
+            </div>
+              <div class="inputBox">
+                <span>Address</span>
+                <input id="addressText" type="text" name=address value="{{db_value_loop[6]}}" required="required" readonly>
+            </div>
+              <div class="inputBox">
+                <span>City</span>
+                <input id="cityText" type="text" name=city value="{{db_value_loop[8]}}" required="required" readonly>
+            </div>
+              <div class="inputBox">
+                <span>State</span>
+                <input id="stateText" type="text" name=state value="{{db_value_loop[9]}}" required="required" readonly>
+            </div>
+              <div class="inputBox">
+                 <span>Pin Code</span>
+                <input id="pincodeText" type="text" name=pincode value="{{db_value_loop[10]}}" required="required" readonly>
+            </div>
+          {% endfor %}<br><br>
+            <button class="center" type="submit" id="btn1" onclick="editFunction()">Edit Profile</button>
+            <br><br>
+            <button style="position: relative; left:50px;" type="submit" id="btn2" disabled>Save Changes</button>
+        </form>
+        <button style="position: relative; left:50%; top:-40px; " type="submit" id="btn3" onclick="cancelFunction()" disabled>Cancel</button>
+    </div>
+  </div>
+
+<script>
+    const button1 = document.getElementById("btn1");
+    const button2 = document.getElementById("btn2");
+    const button3 = document.getElementById("btn3");
+    // function to disable the button
+    const disableButton = () => {
+      button1.disabled = true;
+      button2.disabled = false;
+      button3.disabled = false;
+    };
+    // calling the disableButton() function when the click event happens
+    button1.addEventListener("click", disableButton);
+
+   function editFunction() {
+    document.getElementById("phoneText").readOnly = false;
+    document.getElementById("nameText").readOnly = false;
+    document.getElementById("addressText").readOnly = false;
+    document.getElementById("cityText").readOnly = false;
+    document.getElementById("stateText").readOnly = false;
+    document.getElementById("pincodeText").readOnly = false;
+  }
+
+    let signinText = localStorage.getItem('signin');
+
+
+  function cancelFunction(){
+    window.location.reload();
+  }
+</script>
+</body>
+</html>
+
+
+<!-- const input = document.getElementById("edit");
+const edit_button = document.getElementById("edit-button");
+const end_button = document.getElementById("end-editing");
+
+edit_button.addEventListener("click", function() {
+  input.contentEditable = true;
+  input.style.backgroundColor = "goldenrod";
+} );
+
+end_button.addEventListener("click", function() {
+  input.contentEditable = false;
+  input.style.backgroundColor = "goldenrod";
+} )-->
